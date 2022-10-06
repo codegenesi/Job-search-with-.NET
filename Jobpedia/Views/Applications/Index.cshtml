@@ -1,0 +1,68 @@
+﻿
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
+@model IEnumerable<Jobpedia.Models.Applications>
+
+@{
+    ViewData["Title"] = "Applications";
+}
+
+<h1>My Applications</h1>
+
+<p>
+    <a asp-controller="Jobs" asp-action="Index">View Available Jobs</a>
+    <a asp-action="Create">Create Application</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @*@Html.DisplayNameFor(model => model.Applicant)*@
+                Name of Applicant
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.PositionApplied)*@
+                Position applied for
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.DateOfApplication)*@
+                Date of Application
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.CoverLetter)*@
+                Cover letter
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Applicant)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PositionApplied)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DateOfApplication)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CoverLetter)
+                </td>
+                @if (SignInManager.IsSignedIn(User))
+                {
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    </td>
+                }
+
+            </tr>
+        }
+    </tbody>
+</table>
